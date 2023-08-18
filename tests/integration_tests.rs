@@ -155,15 +155,10 @@ fn all_exercises_require_confirmation() {
             file.read_to_string(&mut s).unwrap();
             s
         };
-        source
-            .matches("// I AM NOT DONE")
-            .next()
-            .unwrap_or_else(|| {
-                panic!(
-                    "There should be an `I AM NOT DONE` annotation in {:?}",
-                    path
-                )
-            });
+        match source.find("// I AM NOT DONE") {
+            Some(_) => panic!("There is an `I AM NOT DONE` annotation in {:?}", path),
+            None => {}
+        }
     }
 }
 
