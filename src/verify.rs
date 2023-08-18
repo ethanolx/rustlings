@@ -85,12 +85,21 @@ fn compile_and_run_interactively(exercise: &Exercise, success_hints: bool) -> Re
         }
     };
 
-    Ok(prompt_for_completion(exercise, Some(output.stdout), success_hints))
+    Ok(prompt_for_completion(
+        exercise,
+        Some(output.stdout),
+        success_hints,
+    ))
 }
 
 // Compile the given Exercise as a test harness and display
 // the output if verbose is set to true
-fn compile_and_test(exercise: &Exercise, run_mode: RunMode, verbose: bool, success_hints: bool) -> Result<bool, ()> {
+fn compile_and_test(
+    exercise: &Exercise,
+    run_mode: RunMode,
+    verbose: bool,
+    success_hints: bool,
+) -> Result<bool, ()> {
     let progress_bar = ProgressBar::new_spinner();
     progress_bar.set_message(format!("Testing {exercise}..."));
     progress_bar.enable_steady_tick(100);
@@ -143,7 +152,11 @@ fn compile<'a, 'b>(
     }
 }
 
-fn prompt_for_completion(exercise: &Exercise, prompt_output: Option<String>, success_hints: bool) -> bool {
+fn prompt_for_completion(
+    exercise: &Exercise,
+    prompt_output: Option<String>,
+    success_hints: bool,
+) -> bool {
     let context = match exercise.state() {
         State::Done => return true,
         State::Pending(context) => context,
